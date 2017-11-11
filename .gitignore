@@ -2,7 +2,7 @@
 **/node_modules
 
 # Ignore ./bin dir
-**/bin
+dist
 
 # Ignore package-lock.json
 package-lock.json
