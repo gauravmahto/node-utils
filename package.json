@@ -1,0 +1,28 @@
+{
+  "name": "node-utils",
+  "version": "1.0.0",
+  "description": "Node utilities",
+  "main": "bin/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gauravmahto/node-utils.git"
+  },
+  "keywords": [
+    "node",
+    "utils"
+  ],
+  "author": "Gaurav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gauravmahto/node-utils/issues"
+  },
+  "homepage": "https://github.com/gauravmahto/node-utils#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "8.0.51",
+    "typescript": "2.6.1"
+  }
+}
