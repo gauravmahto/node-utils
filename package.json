@@ -20,9 +20,12 @@
     "url": "https://github.com/gauravmahto/node-utils/issues"
   },
   "homepage": "https://github.com/gauravmahto/node-utils#readme",
-  "dependencies": {},
+  "dependencies": {    
+    "rimraf": "2.6.2"
+  },
   "devDependencies": {
     "@types/node": "8.0.51",
+    "@types/rimraf": "2.0.2",
     "typescript": "2.6.1"
   }
 }
