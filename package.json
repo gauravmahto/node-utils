@@ -4,7 +4,7 @@
   "description": "Node utilities",
   "main": "bin/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r ts-node/register specs/**/*.spec.ts"
   },
   "repository": {
     "type": "git",
@@ -20,12 +20,24 @@
     "url": "https://github.com/gauravmahto/node-utils/issues"
   },
   "homepage": "https://github.com/gauravmahto/node-utils#readme",
-  "dependencies": {    
+  "dependencies": {
+    "app-module-path": "2.2.0",
     "rimraf": "2.6.2"
   },
   "devDependencies": {
+    "@types/chai": "4.0.5",
+    "@types/mocha": "2.2.44",
     "@types/node": "8.0.51",
     "@types/rimraf": "2.0.2",
+    "chai": "4.1.2",
+    "del": "3.0.0",
+    "gulp": "3.9.1",
+    "gulp-mocha": "4.3.1",
+    "gulp-sourcemaps": "2.6.1",
+    "gulp-typescript": "3.2.3",
+    "gulp-util": "3.0.8",
+    "mocha": "4.0.1",
+    "ts-node": "3.3.0",
     "typescript": "2.6.1"
   }
 }

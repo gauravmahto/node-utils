@@ -17,8 +17,6 @@
     "moduleResolution": "node",
     "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "sourceRoot": ".",
     "inlineSources": true,
     "baseUrl": ".",
     "paths": {
@@ -27,6 +25,12 @@
       ],
       "src/*": [
         "src/*"
+      ],
+      "specs": [
+        "specs"
+      ],
+      "specs/*": [
+        "specs/*"
       ]
     }
   },
@@ -35,7 +39,6 @@
   ],
   "exclude": [
     "node_modules", 
-    "dist",
-    "specs"
+    "dist"
   ]
 }
