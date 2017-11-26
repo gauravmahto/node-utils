@@ -96,3 +96,6 @@ gulp.task('watch', () => {
   gulp.watch(config.inputSourceFiles, ['compileSrc']);
   gulp.watch(config.inputTestFiles, ['compileTest']);
 });
+
+// Default gulp task
+gulp.task('default', ['compileTestForWatch']);

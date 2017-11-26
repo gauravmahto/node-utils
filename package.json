@@ -4,7 +4,8 @@
   "description": "Node utilities",
   "main": "bin/app.js",
   "scripts": {
-    "test": "mocha -r ts-node/register specs/**/*.spec.ts"
+    "test": "mocha -r ts-node/register specs/**/*.spec.ts",
+    "complie-server": "tsc & exit 0"
   },
   "repository": {
     "type": "git",
