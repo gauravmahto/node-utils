@@ -6,7 +6,9 @@ import * as path from 'path';
 import * as rimraf from 'rimraf';
 import { promisify } from 'util';
 
-import { SerializedAsync, SerializedAsyncOptions, SerializedAsyncResult } from './async-utils';
+import {
+  getInstance, SerializedAsyncOptions, SerializedAsyncResult
+} from './async-utils';
 
 const readDir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
@@ -21,23 +23,25 @@ if (require.main === module) {
   // Required by another module.
 }
 
-function getArgKeyVal(id: string): {
-  id: string | undefined,
+// Get the arguments and it's values.
+// For e.g: src=abc
+// Call: getArgKeyVal('src')
+// Returns: { arg: src, val: abc }
+function getArgKeyVal(name: string): {
+  arg: string | undefined,
   val: string | undefined
 } {
 
-  id = (id + '=');
+  name = (name + '=');
   const argKeyValObj: {
-    id: string | undefined,
+    arg: string | undefined,
     val: string | undefined
   } = {
-      id: undefined,
+      arg: undefined,
       val: undefined
     };
 
-  const argKeyVal: string = args.find((arg: string) => {
-    return (arg.indexOf(id) === 0);
-  });
+  const argKeyVal: string = args.find((arg: string) => (arg.indexOf(name) === 0));
 
   if (typeof argKeyVal !== 'undefined') {
 
@@ -45,7 +49,7 @@ function getArgKeyVal(id: string): {
 
     if (argKeyValArr.length === 2) {
 
-      argKeyValObj.id = argKeyValArr[0];
+      argKeyValObj.arg = argKeyValArr[0];
       argKeyValObj.val = argKeyValArr[1];
 
     }
@@ -56,13 +60,14 @@ function getArgKeyVal(id: string): {
 
 }
 
+// If args is present, then start the processing.
 if (args.length > 0) {
 
   const srcDir = getArgKeyVal('src').val;
 
   if (typeof srcDir !== 'undefined') {
 
-    const serializedAsync = new SerializedAsync();
+    const serializedAsync = getInstance();
     const asyncOptions: SerializedAsyncOptions = {};
 
     readDir(srcDir)

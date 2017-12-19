@@ -101,116 +101,94 @@ function validateIsArray(item: any, noThrow: boolean = false): Error | boolean {
 
 // endregion - Validation functions.
 
-export class SerializedAsync {
+export declare class SerializedAsync {
 
-  private static instanceDoRunning: boolean = false;
-
-  private readonly validations: { [k: string]: validateFn } = {};
-  private currentIteration: number;
-  private doResult: SerializedAsyncResult[];
-
-  private doStarted: boolean;
-
-  public constructor() {
-
-    this.validations[ValidationFunction.Until] = validateUntil;
-    this.validations[ValidationFunction.GetArguments] = validateGetArgumentsFn;
-    this.validations[ValidationFunction.AddToResult] = validateAddToResultFn;
-
-    this.validations[ValidationFunction.IsArray] = validateIsArray;
-
-    this.reset();
-
-  }
+  private constructor();
 
   /**
-   * For each function.
-   * @param fn 
-   * @param options 
-   * @param args 
-   */
+     * For each function.
+     * @param fn 
+     * @param options 
+     * @param args 
+     */
   public do<U>(fn: SerializedAsyncDoFn<U>,
-    options: SerializedAsyncOptions = { until: -1 },
-    ...args: any[]): Promise<SerializedAsyncResult[]> {
-
-    if (SerializedAsync.instanceDoRunning) {
-
-      return Promise.reject(
-        new Error('Only single do call is allowed for the same instance at a time.')
-      );
-
-    }
-
-    SerializedAsync.instanceDoRunning = true;
-
-    return this.$$do<U>(fn, options, ...args);
-
-  }
-
-  /**
-   * Function to reset internal data.
-   */
-  private reset(): void {
-
-    this.currentIteration = -1;
-    this.doResult = [];
-    this.doStarted = false;
-
-  }
-
-  /**
-   * Private do function.
-   * @param fn 
-   * @param options 
-   * @param args 
-   */
-  private $$do<U>(fn: SerializedAsyncDoFn<U>,
     options: SerializedAsyncOptions,
-    ...args: any[]): Promise<SerializedAsyncResult[]> {
+    ...args: any[]): Promise<SerializedAsyncResult[]>;
 
-    try {
+}
 
-      this.validations[ValidationFunction.Until](options.until);
+export function getInstance(): SerializedAsync {
 
-    } catch (err) {
+  class SerializedAsyncPrivate {
 
-      return Promise.reject(err);
+    private static instanceDoRunning: boolean = false;
 
-    }
+    private readonly validations: { [k: string]: validateFn } = {};
+    private currentIteration: number;
+    private doResult: SerializedAsyncResult[];
 
-    // If this is the first iteration, reset the data.
-    if (!this.doStarted) {
+    private doStarted: boolean;
 
-      // Reset the data.
+    public constructor() {
+
+      this.validations[ValidationFunction.Until] = validateUntil;
+      this.validations[ValidationFunction.GetArguments] = validateGetArgumentsFn;
+      this.validations[ValidationFunction.AddToResult] = validateAddToResultFn;
+
+      this.validations[ValidationFunction.IsArray] = validateIsArray;
+
       this.reset();
 
     }
 
-    // Mark 'do' start.
-    this.doStarted = true;
+    /**
+     * For each function.
+     * @param fn 
+     * @param options 
+     * @param args 
+     */
+    public do<U>(fn: SerializedAsyncDoFn<U>,
+      options: SerializedAsyncOptions = { until: -1 },
+      ...args: any[]): Promise<SerializedAsyncResult[]> {
 
-    // Set the iteration value.
-    this.currentIteration = (this.currentIteration === -1) ?
-      0 :
-      this.currentIteration;
+      if (SerializedAsyncPrivate.instanceDoRunning) {
 
-    // Set the until value.
-    options.until = (options.until) === -1 ?
-      1 :
-      options.until;
+        return Promise.reject(
+          new Error('Only single do call is allowed for the same instance at a time.')
+        );
 
-    let fnArgs: any[];
+      }
 
-    // Get the arguments that will be passed to the async callback fn.
-    if (this.validations[ValidationFunction.GetArguments](options.getArguments, true) &&
-      options.getArguments /* <-- Get rid of TS warning */) {
+      SerializedAsyncPrivate.instanceDoRunning = true;
 
-      // Use the provided getArguments callback to fetch the arguments.
-      fnArgs = options.getArguments(this.currentIteration);
+      return this.$$do<U>(fn, options, ...args);
+
+    }
+
+    /**
+     * Function to reset internal data.
+     */
+    private reset(): void {
+
+      this.currentIteration = -1;
+      this.doResult = [];
+      this.doStarted = false;
+
+    }
+
+    /**
+     * Private do function.
+     * @param fn 
+     * @param options 
+     * @param args 
+     */
+    private $$do<U>(fn: SerializedAsyncDoFn<U>,
+      options: SerializedAsyncOptions,
+      ...args: any[]): Promise<SerializedAsyncResult[]> {
 
       try {
 
-        this.validations[ValidationFunction.IsArray](fnArgs);
+        this.validations[ValidationFunction.Until](options.until);
 
       } catch (err) {
 
@@ -218,26 +196,76 @@ export class SerializedAsync {
 
       }
 
-    } else {
+      // If this is the first iteration, reset the data.
+      if (!this.doStarted) {
 
-      // Use the arguments passed to the do.
-      fnArgs = args;
+        // Reset the data.
+        this.reset();
 
-    }
+      }
 
-    // Return the Promise, so that the 'do' can be chained using the 'then' callback.
-    return new Promise((resolve: (p: any[]) => void, reject: (p: any) => void) => {
+      // Mark 'do' start.
+      this.doStarted = true;
 
-      // Call the async callback fn by passing the arguments.
-      Promise.resolve(fn(...fnArgs))
-        .then((response: any) => {
+      // Set the iteration value.
+      this.currentIteration = (this.currentIteration === -1) ?
+        0 :
+        this.currentIteration;
 
-          // Check whether addToResult callback was provided or not.
-          if (this.validations[ValidationFunction.AddToResult](options.addToResult, true) &&
-            options.addToResult /* <-- Get rid of TS warning */) {
+      // Set the until value.
+      options.until = (options.until) === -1 ?
+        1 :
+        options.until;
 
-            // Check whether result should be pushed to the result array or not.
-            if (options.addToResult(response, ...fnArgs)) {
+      let fnArgs: any[];
+
+      // Get the arguments that will be passed to the async callback fn.
+      if (this.validations[ValidationFunction.GetArguments](options.getArguments, true) &&
+        options.getArguments /* <-- Get rid of TS warning */) {
+
+        // Use the provided getArguments callback to fetch the arguments.
+        fnArgs = options.getArguments(this.currentIteration);
+
+        try {
+
+          this.validations[ValidationFunction.IsArray](fnArgs);
+
+        } catch (err) {
+
+          return Promise.reject(err);
+
+        }
+
+      } else {
+
+        // Use the arguments passed to the do.
+        fnArgs = args;
+
+      }
+
+      // Return the Promise, so that the 'do' can be chained using the 'then' callback.
+      return new Promise((resolve: (p: any[]) => void, reject: (p: any) => void) => {
+
+        // Call the async callback fn by passing the arguments.
+        Promise.resolve(fn(...fnArgs))
+          .then((response: any) => {
+
+            // Check whether addToResult callback was provided or not.
+            if (this.validations[ValidationFunction.AddToResult](options.addToResult, true) &&
+              options.addToResult /* <-- Get rid of TS warning */) {
+
+              // Check whether result should be pushed to the result array or not.
+              if (options.addToResult(response, ...fnArgs)) {
+
+                // Push the result into the response array.
+                this.doResult.push({
+                  res: response,
+                  args: fnArgs
+                });
+
+              }
+
+            } else {  // Else, add the result to the result array.
 
               // Push the result into the response array.
               this.doResult.push({
@@ -247,56 +275,50 @@ export class SerializedAsync {
 
             }
 
-          } else {  // Else, add the result to the result array.
+            // Call loopAsync recursively by passing the arguments.
+            if ((typeof options.until === 'function' && options.until(this.currentIteration)) ||
+              ((typeof options.until === 'number') && (this.currentIteration < (options.until - 1)))) {
 
-            // Push the result into the response array.
-            this.doResult.push({
-              res: response,
-              args: fnArgs
-            });
+              // Increment the iteration count.
+              this.currentIteration++;
 
-          }
+              // Recursively call $$do.
+              return this.$$do(fn, options, ...args);
 
-          // Call loopAsync recursively by passing the arguments.
-          if ((typeof options.until === 'function' && options.until(this.currentIteration)) ||
-            ((typeof options.until === 'number') && (this.currentIteration < (options.until - 1)))) {
+            }
 
-            // Increment the iteration count.
-            this.currentIteration++;
+            // Return resolved data.
+            return Promise.resolve(this.doResult);
 
-            // Recursively call $$do.
-            return this.$$do(fn, options, ...args);
+          })
+          .then((response: any[]) => {
 
-          }
+            // Resolve the main Promise.
+            resolve(response);
+            // Allow next do call.
+            SerializedAsyncPrivate.instanceDoRunning = false;
+            // Reset the data.
+            this.reset();
 
-          // Return resolved data.
-          return Promise.resolve(this.doResult);
+          })
+          .catch((error: any) => {
 
-        })
-        .then((response: any[]) => {
+            // Reject the main Promise.
+            reject(error);
+            // Allow next do call.
+            SerializedAsyncPrivate.instanceDoRunning = false;
+            // Reset the data.
+            this.reset();
 
-          // Resolve the main Promise.
-          resolve(response);
-          // Allow next do call.
-          SerializedAsync.instanceDoRunning = false;
-          // Reset the data.
-          this.reset();
+          });
 
-        })
-        .catch((error: any) => {
+      });
 
-          // Reject the main Promise.
-          reject(error);
-          // Allow next do call.
-          SerializedAsync.instanceDoRunning = false;
-          // Reset the data.
-          this.reset();
-
-        });
-
-    });
+    }
 
   }
+
+  return (new SerializedAsyncPrivate()) as SerializedAsync;
 
 }
 
