@@ -1,21 +1,25 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
-    ],
-    "jsRules": {},
-    "rules": {
-      "quotemark": false,
-      "trailing-comma": false,
-      "newline-before-return": true,
-      "eofline": false,
-      "no-trailing-whitespace": false,
-      "no-console": false,
-      "max-classes-per-file": false,
-      "no-empty": false,
-      "align": false,
-      "interface-name": false,
-      "forin": false
-    },
-    "rulesDirectory": []
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "quotemark": false,
+    "trailing-comma": false,
+    "newline-before-return": true,
+    "eofline": false,
+    "no-trailing-whitespace": false,
+    "no-console": false,
+    "max-classes-per-file": false,
+    "no-empty": false,
+    "align": false,
+    "interface-name": false,
+    "forin": false,
+    "indent": [
+      "spaces",
+      2
+    ]
+  },
+  "rulesDirectory": []
 }
