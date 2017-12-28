@@ -1,21 +1,243 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {
+    "no-var-keyword": true,
+    "no-string-literal": true,
+    "no-construct": true,
+    "no-trailing-whitespace": true,
+    "no-console": true,
+    "no-empty": false,
+    "no-duplicate-imports": true,
+    "new-parens": true,
+    "prefer-object-spread": true,
+    "radix": true,
+    "curly": true,
+    "triple-equals": true,
+    "prefer-for-of": true,
+    "newline-before-return": true,
+    "eofline": true,
+    "max-classes-per-file": false,
+    "interface-name": false,
+    "forin": true,
+    "align": true,
+    "file-header": [
+      true,
+      "Copyright\\s{1}\\d{4}\\s{1}-\\s{1}Author\\s{1}gauravm\\.git@gmail\\.com"
     ],
-    "jsRules": {},
-    "rules": {
-      "quotemark": false,
-      "trailing-comma": false,
-      "newline-before-return": true,
-      "eofline": false,
-      "no-trailing-whitespace": false,
-      "no-console": false,
-      "max-classes-per-file": false,
-      "no-empty": false,
-      "align": false,
-      "interface-name": false,
-      "forin": false
-    },
-    "rulesDirectory": []
+    "max-line-length": [
+      true,
+      120
+    ],
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape",
+      "avoid-template"
+    ],
+    "prefer-const": [
+      true,
+      {
+        "destructuring": "all"
+      }
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ],
+    "only-arrow-functions": [
+      true,
+      "allow-declarations",
+      "allow-named-functions"
+    ],
+    "no-shadowed-variable": [
+      true,
+      {
+        "class": true,
+        "enum": true,
+        "function": true,
+        "interface": false,
+        "namespace": true,
+        "typeAlias": false,
+        "typeParameter": false
+      }
+    ],
+    "no-unused-expression": [
+      true,
+      "allow-fast-null-checks",
+      "allow-new"
+    ],
+    "jsdoc-format": [
+      true,
+      "check-multiline-start"
+    ],
+    "no-consecutive-blank-lines": [
+      true,
+      1
+    ],
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "object-literal-key-quotes": [
+      true,
+      "as-needed"
+    ],
+    "object-literal-sort-keys": [
+      true,
+      "ignore-case",
+      "match-declaration-order"
+    ],
+    "whitespace": [
+      true,
+      "check-decl",
+      "check-operator",
+      "check-module",
+      "check-rest-spread",
+      "check-type-operator"
+    ]
+  },
+  "rules": {
+    "no-var-keyword": true,
+    "no-string-literal": true,
+    "no-construct": true,
+    "no-trailing-whitespace": true,
+    "no-console": true,
+    "no-empty": false,
+    "no-duplicate-imports": true,
+    "no-angle-bracket-type-assertion": true,
+    "new-parens": true,
+    "prefer-object-spread": true,
+    "radix": true,
+    "curly": true,
+    "triple-equals": true,
+    "prefer-for-of": true,
+    "newline-before-return": true,
+    "eofline": true,
+    "max-classes-per-file": false,
+    "interface-name": false,
+    "forin": true,
+    "align": true,
+    "file-header": [
+      true,
+      "Copyright\\s{1}\\d{4}\\s{1}-\\s{1}Author\\s{1}gauravm\\.git@gmail\\.com"
+    ],
+    "array-type": [
+      true,
+      "array-simple"
+    ],
+    "max-line-length": [
+      true,
+      120
+    ],
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
+    "quotemark": [
+      true,
+      "single",
+      "avoid-escape",
+      "avoid-template"
+    ],
+    "prefer-const": [
+      true,
+      {
+        "destructuring": "all"
+      }
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ],
+    "only-arrow-functions": [
+      true,
+      "allow-declarations",
+      "allow-named-functions"
+    ],
+    "no-shadowed-variable": [
+      true,
+      {
+        "class": true,
+        "enum": true,
+        "function": true,
+        "interface": true,
+        "namespace": true,
+        "typeAlias": true,
+        "typeParameter": true
+      }
+    ],
+    "no-unused-expression": [
+      true,
+      "allow-fast-null-checks",
+      "allow-new"
+    ],
+    "jsdoc-format": [
+      true,
+      "check-multiline-start"
+    ],
+    "no-consecutive-blank-lines": [
+      true,
+      1
+    ],
+    "semicolon": [
+      true,
+      "always"
+    ],
+    "object-literal-key-quotes": [
+      true,
+      "as-needed"
+    ],
+    "object-literal-sort-keys": [
+      true,
+      "ignore-case",
+      "match-declaration-order"
+    ],
+    "whitespace": [
+      true,
+      "check-decl",
+      "check-operator",
+      "check-module",
+      "check-rest-spread",
+      "check-type-operator"
+    ],
+    "await-promise": [
+      true,
+      "Thenable"
+    ],
+    "ordered-imports": [
+      true,
+      {
+        "import-sources-order": "lowercase-first",
+        "named-imports-order": "lowercase-first"
+      }
+    ],
+    "variable-name": [
+      true,
+      "ban-keywords",
+      "check-format",
+      "allow-leading-underscore"
+    ]
+  },
+  "rulesDirectory": [],
+  "linterOptions": {
+    "exclude": [
+      "dist/**/*",
+      "node_modules/**/*"
+    ]
+  }
 }

@@ -1,3 +1,7 @@
+/**
+ * Copyright 2017 - Author gauravm.git@gmail.com
+ */
+
 // Cmd utility to delete versioned folder.
 // Call like => c:\> node dist\delete-util.js src="D:\Visual Studio"
 
@@ -10,6 +14,7 @@ import {
   getInstance, SerializedAsyncOptions, SerializedAsyncResult
 } from './async-utils';
 
+const log = console.log;
 const readDir = promisify(fs.readdir);
 const stat = promisify(fs.stat);
 
@@ -118,41 +123,48 @@ if (args.length > 0) {
 
         const dirWithVerCopy = JSON.parse(JSON.stringify(dirWithVer));
         for (const name in dirWithVer) {
-          dirWithVer[name].none.pop();
-          dirWithVer[name].x86.pop();
-          dirWithVer[name].x64.pop();
+          if (dirWithVer.hasOwnProperty(name)) {
+            dirWithVer[name].none.pop();
+            dirWithVer[name].x86.pop();
+            dirWithVer[name].x64.pop();
+          }
         }
 
         result.forEach((item) => {
           const dir: string = item.args[0];
 
           for (const name in dirWithVer) {
-            dirWithVer[name].none.forEach((version: string) => {
-              if (dir.includes(name) && dir.includes(version)) {
-                dirWithVerCopy[name].none.splice(dirWithVerCopy[name].none.indexOf(version), 1);
-                // rimraf.sync(dir);
-              }
-            });
-            dirWithVer[name].x86.forEach((version: string) => {
-              if (dir.includes(name) && dir.includes(version)) {
-                dirWithVerCopy[name].x86.splice(dirWithVerCopy[name].x86.indexOf(version), 1);
-                // rimraf.sync(dir);
-              }
-            });
-            dirWithVer[name].x64.forEach((version: string) => {
-              if (dir.includes(name) && dir.includes(version)) {
-                dirWithVerCopy[name].x64.splice(dirWithVerCopy[name].x64.indexOf(version), 1);
-                // rimraf.sync(dir);
-              }
-            });
+
+            if (dirWithVer.hasOwnProperty(name)) {
+
+              dirWithVer[name].none.forEach((version: string) => {
+                if (dir.includes(name) && dir.includes(version)) {
+                  dirWithVerCopy[name].none.splice(dirWithVerCopy[name].none.indexOf(version), 1);
+                  // rimraf.sync(dir);
+                }
+              });
+              dirWithVer[name].x86.forEach((version: string) => {
+                if (dir.includes(name) && dir.includes(version)) {
+                  dirWithVerCopy[name].x86.splice(dirWithVerCopy[name].x86.indexOf(version), 1);
+                  // rimraf.sync(dir);
+                }
+              });
+              dirWithVer[name].x64.forEach((version: string) => {
+                if (dir.includes(name) && dir.includes(version)) {
+                  dirWithVerCopy[name].x64.splice(dirWithVerCopy[name].x64.indexOf(version), 1);
+                  // rimraf.sync(dir);
+                }
+              });
+
+            }
           }
 
         });
 
-        console.log(dirWithVerCopy);
+        log(dirWithVerCopy);
 
       })
-      .catch((err: any) => console.log(err));
+      .catch((err: any) => log(err));
 
   }
 
