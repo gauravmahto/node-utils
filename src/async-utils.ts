@@ -1,3 +1,7 @@
+/**
+ * Copyright 2017 - Author gauravm.git@gmail.com
+ */
+
 export interface SerializedAsyncOptions {
 
   until?: number | ((index: number) => boolean);
@@ -37,7 +41,7 @@ function validateUntil(item: any, noThrow: boolean = false): Error | boolean {
 
     }
 
-    throw new Error(`Invalid 'until' option provided.`);
+    throw new Error("Invalid 'until' option provided.");
 
   }
 
@@ -55,7 +59,7 @@ function validateGetArgumentsFn(item: any, noThrow: boolean = false): Error | bo
 
     }
 
-    throw new Error(`Invalid 'getArguments' function provided.`);
+    throw new Error("Invalid 'getArguments' function provided.");
 
   }
 
@@ -73,7 +77,7 @@ function validateAddToResultFn(item: any, noThrow: boolean = false): Error | boo
 
     }
 
-    throw new Error(`Invalid 'addToResult' function provided.`);
+    throw new Error("Invalid 'addToResult' function provided.");
 
   }
 
@@ -91,7 +95,7 @@ function validateIsArray(item: any, noThrow: boolean = false): Error | boolean {
 
     }
 
-    throw new Error(`Invalid type. Expected an Array.`);
+    throw new Error('Invalid type. Expected an Array.');
 
   }
 
@@ -106,11 +110,11 @@ export declare class SerializedAsync {
   private constructor();
 
   /**
-     * For each function.
-     * @param fn 
-     * @param options 
-     * @param args 
-     */
+   * For each function.
+   * @param fn
+   * @param options
+   * @param args
+   */
   public do<U>(fn: SerializedAsyncDoFn<U>,
     options: SerializedAsyncOptions,
     ...args: any[]): Promise<SerializedAsyncResult[]>;
@@ -143,9 +147,9 @@ export function getInstance(): SerializedAsync {
 
     /**
      * For each function.
-     * @param fn 
-     * @param options 
-     * @param args 
+     * @param fn
+     * @param options
+     * @param args
      */
     public do<U>(fn: SerializedAsyncDoFn<U>,
       options: SerializedAsyncOptions = { until: -1 },
@@ -178,9 +182,9 @@ export function getInstance(): SerializedAsync {
 
     /**
      * Private do function.
-     * @param fn 
-     * @param options 
-     * @param args 
+     * @param fn
+     * @param options
+     * @param args
      */
     private $$do<U>(fn: SerializedAsyncDoFn<U>,
       options: SerializedAsyncOptions,

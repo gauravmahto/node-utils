@@ -1,3 +1,7 @@
+/**
+ * Copyright 2017 - Author gauravm.git@gmail.com
+ */
+
 const gulp = require('gulp');
 const ts = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
@@ -8,21 +12,21 @@ const gutil = require('gulp-util');
 const config = {
   outputDirectory: './dist',
   inputSourceFiles: [
-    './src/**/*.ts',
+    './src/**/*.ts'
   ],
   inputTestFiles: [
     './specs/**/*.ts',
     'typings.d.ts'
   ],
-  tsConfigPath: 'tsconfig-spec.json',
+  tsConfigPath: 'tsconfig-spec.json'
 };
 
 const typescriptProjectSource = ts.createProject(config.tsConfigPath, {
-  'sourceMap': false
+  sourceMap: false
 });
 const typescriptProjectTest = ts.createProject(config.tsConfigPath, {
-  'sourceMap': false,
-  'files': [
+  sourceMap: false,
+  files: [
     'typings.d.ts'
   ]
 });
@@ -36,7 +40,7 @@ function onErrorHandler(error) {
 // As recommended by https://github.com/gulpjs/gulp/blob/master/docs/recipes/delete-files-folder.md
 gulp.task('cleanTest', () =>
   del([
-    `${config.outputDirectory}/specs`,
+    `${config.outputDirectory}/specs`
   ])
 );
 
@@ -46,7 +50,7 @@ gulp.task('compileTest', ['cleanTest'], () => gulp
   .pipe(typescriptProjectTest())
   .on('error', onErrorHandler)
   .pipe(sourcemaps.write('.', {
-    sourceRoot: function (file) {
+    sourceRoot: file => {
       return file.cwd + '/specs';
     }
   }))
@@ -55,7 +59,7 @@ gulp.task('compileTest', ['cleanTest'], () => gulp
 
 gulp.task('cleanSrc', () =>
   del([
-    `${config.outputDirectory}/src`,
+    `${config.outputDirectory}/src`
   ])
 );
 
@@ -65,7 +69,7 @@ gulp.task('compileSrc', ['cleanSrc'], () => gulp
   .pipe(typescriptProjectSource(ts.reporter.fullReporter(true)))
   .on('error', gutil.log)
   .pipe(sourcemaps.write('.', {
-    sourceRoot: function (file) {
+    sourceRoot: file => {
       return file.cwd + '/src';
     }
   }))
@@ -79,11 +83,10 @@ gulp.task('test', () => gulp
   .pipe(mocha({
     reporter: 'spec',
     timeout: 5000,
-    require: ['source-map-support/register'],
+    require: ['source-map-support/register']
   }))
   .on('error', onErrorHandler)
 );
-
 
 gulp.task('compileSrcForWatch', ['compileSrc'], () => gulp.start('test'));
 gulp.task('compileTestForWatch', ['compileTest'], () => gulp.start('test'));
