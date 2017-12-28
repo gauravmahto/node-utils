@@ -1,3 +1,7 @@
+/**
+ * Copyright 2017 - Author gauravm.git@gmail.com
+ */
+
 import * as path from 'path';
 
 global.projectRoot = path.resolve(__dirname);
