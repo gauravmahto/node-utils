@@ -69,6 +69,7 @@ function getArgKeyVal(name: string): {
 if (args.length > 0) {
 
   const srcDir = getArgKeyVal('src').val;
+  const actionDelete = (getArgKeyVal('action').val === 'delete') ? true : false;
 
   if (typeof srcDir !== 'undefined') {
 
@@ -83,8 +84,10 @@ if (args.length > 0) {
         asyncOptions.addToResult = (item: fs.Stats) => item.isDirectory();
 
         return serializedAsync.do(stat, asyncOptions);
+
       })
       .then((result: SerializedAsyncResult[]) => {
+
         const dirWithVer = {};
         result.forEach((item) => {
           const dir: string = item.args[0];
@@ -92,10 +95,12 @@ if (args.length > 0) {
           const res = /.*(?=\,version.*)/.exec(dir);
 
           if (res) {
+
             const name = res[0];
             const ver = dir.split(',')[1].split('=')[1];
 
             if (dirWithVer[name]) {
+
               if (dir.includes('x86')) {
                 dirWithVer[name].x86.push(ver);
               } else if (dir.includes('x64')) {
@@ -103,7 +108,9 @@ if (args.length > 0) {
               } else {
                 dirWithVer[name].none.push(ver);
               }
+
             } else {
+
               dirWithVer[name] = {
                 x86: [],
                 x64: [],
@@ -116,18 +123,22 @@ if (args.length > 0) {
               } else {
                 dirWithVer[name].none.push(ver);
               }
+
             }
+
           }
 
         });
 
         const dirWithVerCopy = JSON.parse(JSON.stringify(dirWithVer));
         for (const name in dirWithVer) {
+
           if (dirWithVer.hasOwnProperty(name)) {
             dirWithVer[name].none.pop();
             dirWithVer[name].x86.pop();
             dirWithVer[name].x64.pop();
           }
+
         }
 
         result.forEach((item) => {
@@ -138,22 +149,39 @@ if (args.length > 0) {
             if (dirWithVer.hasOwnProperty(name)) {
 
               dirWithVer[name].none.forEach((version: string) => {
+
                 if (dir.includes(name) && dir.includes(version)) {
                   dirWithVerCopy[name].none.splice(dirWithVerCopy[name].none.indexOf(version), 1);
-                  // rimraf.sync(dir);
+                  // Delete directory.
+                  if (actionDelete) {
+                    rimraf.sync(dir);
+                  }
                 }
+
               });
+
               dirWithVer[name].x86.forEach((version: string) => {
+
                 if (dir.includes(name) && dir.includes(version)) {
                   dirWithVerCopy[name].x86.splice(dirWithVerCopy[name].x86.indexOf(version), 1);
-                  // rimraf.sync(dir);
+                  // Delete directory.
+                  if (actionDelete) {
+                    rimraf.sync(dir);
+                  }
                 }
+
               });
+
               dirWithVer[name].x64.forEach((version: string) => {
+
                 if (dir.includes(name) && dir.includes(version)) {
                   dirWithVerCopy[name].x64.splice(dirWithVerCopy[name].x64.indexOf(version), 1);
-                  // rimraf.sync(dir);
+                  // Delete directory.
+                  if (actionDelete) {
+                    rimraf.sync(dir);
+                  }
                 }
+
               });
 
             }
