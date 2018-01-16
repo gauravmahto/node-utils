@@ -1,0 +1,41 @@
+{
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "dist",
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "removeComments": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,    
+    "suppressImplicitAnyIndexErrors": true,
+    "experimentalDecorators": true,
+    "sourceRoot": ".",
+    "sourceMap": true,
+    "inlineSources": true,
+    "baseUrl": ".",
+    "paths": {
+      "framework": [
+        "."
+      ],
+      "framework/*": [
+        "./*"
+      ]
+    },
+    "lib": [
+      "es2017",
+      "dom"
+    ]
+  },
+  "include": [
+    "./**/*"
+  ],
+  "exclude": [
+    "../../node_modules", 
+    "../../dist",
+    "../../specs"
+  ]
+}
