@@ -12,7 +12,7 @@ import { promisify } from 'util';
 
 import {
   getInstance, SerializedAsyncOptions, SerializedAsyncResult
-} from 'async-utils';
+} from 'src/async-utils';
 
 const log = console.log;
 const readDir = promisify(fs.readdir);

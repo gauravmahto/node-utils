@@ -5,7 +5,8 @@
   "main": "bin/app.js",
   "scripts": {
     "test": "mocha -r ts-node/register specs/**/*.spec.ts",
-    "compile": "tsc & exit 0"
+    "compile": "tsc & exit 0",
+    "webpack-compile": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",

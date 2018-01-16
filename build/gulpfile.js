@@ -1,16 +1,14 @@
 /**
- * Copyright 2017 - Author gauravm.git@gmail.com
+ * Copyright 2018 - Author gauravm.git@gmail.com
  */
 
 const gulp = require('gulp');
-const ts = require('gulp-typescript');
-const sourcemaps = require('gulp-sourcemaps');
-const mocha = require('gulp-mocha');
-const del = require('del');
-const gutil = require('gulp-util');
+
+const tasks = require('./tasks');
+const helpers = require('./helpers');
 
 const config = {
-  outputDirectory: './dist',
+  destDir: helpers.root('dist'),
   inputSourceFiles: [
     './src/**/*.ts'
   ],
@@ -21,84 +19,58 @@ const config = {
   tsConfigPath: 'tsconfig-spec.json'
 };
 
-const typescriptProjectSource = ts.createProject(config.tsConfigPath, {
-  sourceMap: false
-});
-const typescriptProjectTest = ts.createProject(config.tsConfigPath, {
-  sourceMap: false,
-  files: [
-    'typings.d.ts'
-  ]
-});
+//region Gulp tasks
 
-// Helpers
-function onErrorHandler(error) {
-  this.emit('end');
-}
+gulp.task('cleanSpec', () => tasks.clean(helpers.root(config.destDir, 'specs')));
+gulp.task('cleanSrc', () => tasks.clean(helpers.root(config.destDir, 'src')));
 
-// Gulp tasks
-// As recommended by https://github.com/gulpjs/gulp/blob/master/docs/recipes/delete-files-folder.md
-gulp.task('cleanTest', () =>
-  del([
-    `${config.outputDirectory}/specs`
-  ])
-);
+gulp.task('compileSpec', ['cleanSpec'], () => tasks.buildTS({
+  source: {
+    include: [
+      helpers.root('specs/**/*.ts'),
+      helpers.root('typings.d.ts')
+    ]
+  },
+  dest: {
+    src: helpers.root(config.destDir, 'specs')
+  },
+  ts: {
+    configFile: helpers.root('tsconfig-spec.json')
+  }
+}));
 
-gulp.task('compileTest', ['cleanTest'], () => gulp
-  .src(config.inputTestFiles)
-  .pipe(sourcemaps.init())
-  .pipe(typescriptProjectTest())
-  .on('error', onErrorHandler)
-  .pipe(sourcemaps.write('.', {
-    sourceRoot: file => {
-      return file.cwd + '/specs';
-    }
-  }))
-  .pipe(gulp.dest(config.outputDirectory + '/specs'))
-);
+gulp.task('compileSrc', ['cleanSrc'], () => tasks.buildTS({
+  source: {
+    include: [
+      helpers.root('src/app/**/*.ts'),
+      helpers.root('src/framework/**/*.ts')
+    ]
+  },
+  dest: {
+    src: helpers.root(config.destDir, 'src')
+  },
+  ts: {
+    configFile: helpers.root('tsconfig.json')
+  }
+}));
 
-gulp.task('cleanSrc', () =>
-  del([
-    `${config.outputDirectory}/src`
-  ])
-);
+gulp.task('compile', ['compileSrc', 'compileSpec']);
 
-gulp.task('compileSrc', ['cleanSrc'], () => gulp
-  .src(config.inputSourceFiles)
-  .pipe(sourcemaps.init())
-  .pipe(typescriptProjectSource(ts.reporter.fullReporter(true)))
-  .on('error', gutil.log)
-  .pipe(sourcemaps.write('.', {
-    sourceRoot: file => {
-      return file.cwd + '/src';
-    }
-  }))
-  .pipe(gulp.dest(config.outputDirectory + '/src'))
-);
-
-gulp.task('compile', ['compileSrc', 'compileTest']);
-
-gulp.task('test', () => gulp
-  .src('./dist/specs/**/*.js', { read: false })
-  .pipe(mocha({
-    reporter: 'spec',
-    timeout: 5000,
-    require: ['source-map-support/register']
-  }))
-  .on('error', onErrorHandler)
-);
+gulp.task('test', () => tasks.runTests());
 
 gulp.task('compileSrcForWatch', ['compileSrc'], () => gulp.start('test'));
-gulp.task('compileTestForWatch', ['compileTest'], () => gulp.start('test'));
+gulp.task('compileSpecForWatch', ['compileSpec'], () => gulp.start('test'));
 
 gulp.task('watchAndTest', () => {
   gulp.watch(config.inputSourceFiles, ['compileSrcForWatch']);
-  gulp.watch(config.inputTestFiles, ['compileTestForWatch']);
+  gulp.watch(config.inputTestFiles, ['compileSpecForWatch']);
 });
 gulp.task('watch', () => {
   gulp.watch(config.inputSourceFiles, ['compileSrc']);
-  gulp.watch(config.inputTestFiles, ['compileTest']);
+  gulp.watch(config.inputTestFiles, ['compileSpec']);
 });
 
 // Default gulp task
-gulp.task('default', ['compileTestForWatch']);
+gulp.task('default', ['compileSpecForWatch']);
+
+//endregion Gulp tasks

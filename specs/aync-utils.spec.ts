@@ -1,19 +1,17 @@
 /**
- * Copyright 2017 - Author gauravm.git@gmail.com
+ * Copyright 2018 - Author gauravm.git@gmail.com
  */
-
-import './../globals';
 
 import { expect } from 'chai';
 import 'mocha';
 
-import { SerializedAsync } from 'src/async-utils';
+import { getInstance, SerializedAsync } from 'src/async-utils';
 
 describe('Async utils', () => {
 
-  it('Should create instance of SerializedAsync', () => {
+  it('Should get instance of SerializedAsync', () => {
 
-    expect(() => new SerializedAsync()).to.not.throw(Error);
+    expect(() => getInstance).to.instanceOf(SerializedAsync);
 
   });
 
