@@ -10,7 +10,7 @@
     "strictNullChecks": true,
     "removeComments": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,    
+    "noUnusedParameters": true,
     "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
     "sourceRoot": ".",
@@ -19,11 +19,21 @@
     "baseUrl": ".",
     "paths": {
       "src": [
-        "src/app",
-        "src/framework"
+        "src"
       ],
       "src/*": [
-        "src/app/*",
+        "src/*"
+      ],
+      "app": [
+        "src/app"
+      ],
+      "app/*": [
+        "src/app/*"
+      ],
+      "framework": [
+        "src/framework"
+      ],
+      "framework/*": [
         "src/framework/*"
       ]
     },
@@ -37,7 +47,9 @@
     "./specs/**/*"
   ],
   "exclude": [
-    "node_modules", 
-    "dist"
+    "node_modules",
+    "dist",
+    "build",
+    "configs"
   ]
 }

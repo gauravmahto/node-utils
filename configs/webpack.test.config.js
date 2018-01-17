@@ -5,12 +5,10 @@
 const root = require('./helpers').root;
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
 
   target: 'node',
-  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
 
   resolve: {
     extensions: [
@@ -26,9 +24,17 @@ module.exports = {
     }
   },
 
-  entry: {
-    app: root('src/app/app.ts'),
-    specs: root('specs/index.ts')
+  // entry: {
+  //   specs: root('specs/index.ts')
+  // },
+
+  // Source maps support ('inline-source-map' also works)
+  devtool: 'source-map',
+
+  output: {
+    path: root('dist/specs'),
+    filename: '[name].js',
+    chunkFilename: '[id].chunk.js'
   },
 
   module: {
@@ -40,6 +46,9 @@ module.exports = {
       use: [{
         loader: 'awesome-typescript-loader',
         options: {
+          paths: [
+            root('specs', '**/*ts')
+          ],
           configFileName: root('tsconfig.json')
         }
       }]
@@ -51,14 +60,11 @@ module.exports = {
   plugins: [
 
     new CleanWebpackPlugin([
-      root('dist/src')
+      root('dist/specs')
     ], {
-      root: root()
-    }),
+        root: root()
+      })
 
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['app']
-    })
   ]
 
 };

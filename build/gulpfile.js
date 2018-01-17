@@ -5,7 +5,7 @@
 const gulp = require('gulp');
 
 const tasks = require('./tasks');
-const helpers = require('./helpers');
+const helpers = require('./../configs/helpers');
 
 const config = {
   destDir: helpers.root('dist'),

@@ -1,12 +1,13 @@
 {
   "name": "node-utils",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Node utilities",
-  "main": "bin/app.js",
+  "main": "dist/src/app.js",
   "scripts": {
     "test": "mocha -r ts-node/register specs/**/*.spec.ts",
     "compile": "tsc & exit 0",
-    "webpack-compile": "webpack --config webpack.config.js"
+    "webpack-compile": "webpack --config webpack.config.js",
+    "webpack-watch": "webpack -w --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -14,7 +15,9 @@
   },
   "keywords": [
     "node",
-    "utils"
+    "utils",
+    "typescript",
+    "webpack"
   ],
   "author": "Gaurav",
   "license": "ISC",
@@ -23,7 +26,6 @@
   },
   "homepage": "https://github.com/gauravmahto/node-utils#readme",
   "dependencies": {
-    "app-module-path": "2.2.0",
     "rimraf": "2.6.2"
   },
   "devDependencies": {
@@ -31,15 +33,20 @@
     "@types/mocha": "2.2.44",
     "@types/node": "8.0.51",
     "@types/rimraf": "2.0.2",
+    "awesome-typescript-loader": "3.4.1",
     "chai": "4.1.2",
+    "clean-webpack-plugin": "^0.1.17",
     "del": "3.0.0",
     "gulp": "3.9.1",
     "gulp-mocha": "4.3.1",
-    "gulp-sourcemaps": "2.6.1",
-    "gulp-typescript": "3.2.3",
+    "gulp-sourcemaps": "2.6.3",
+    "gulp-typescript": "4.0.0-alpha.1",
     "gulp-util": "3.0.8",
-    "mocha": "4.0.1",
-    "ts-node": "3.3.0",
-    "typescript": "2.6.1"
+    "mocha": "4.1.0",
+    "ts-node": "4.1.0",
+    "typescript": "2.6.2",
+    "webpack": "3.10.0",
+    "webpack-merge": "4.1.1",
+    "webpack-node-externals": "1.6.0"
   }
 }

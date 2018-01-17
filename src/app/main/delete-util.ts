@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - Author gauravm.git@gmail.com
+ * Copyright 2018 - Author gauravm.git@gmail.com
  */
 
 // Cmd utility to delete versioned folder.
@@ -12,7 +12,7 @@ import { promisify } from 'util';
 
 import {
   getInstance, SerializedAsyncOptions, SerializedAsyncResult
-} from 'src/async-utils';
+} from 'framework';
 
 const log = console.log;
 const readDir = promisify(fs.readdir);

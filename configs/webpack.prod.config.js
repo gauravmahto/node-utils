@@ -12,11 +12,11 @@ const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
 
+  // Source maps support ('inline-source-map' also works)
   devtool: 'source-map',
 
   output: {
-    path: root('dist'),
-    publicPath: '/',
+    path: root('dist/src'),
     filename: '[name].[hash].js',
     chunkFilename: '[id].[hash].chunk.js'
   },
@@ -31,17 +31,9 @@ module.exports = webpackMerge(commonConfig, {
       }
     }),
 
-    new ExtractTextPlugin('[name].[hash].css'),
-
     new webpack.DefinePlugin({
       'process.env': {
         ENV: JSON.stringify(ENV)
-      }
-    }),
-
-    new webpack.LoaderOptionsPlugin({
-      htmlLoader: {
-        minimize: false // workaround for ng2
       }
     })
 
