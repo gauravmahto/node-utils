@@ -5,10 +5,12 @@
 const root = require('./helpers').root;
 const webpack = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
 
   target: 'node',
+  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
 
   resolve: {
     extensions: [
@@ -24,12 +26,9 @@ module.exports = {
     }
   },
 
-  // entry: {
-  //   specs: root('specs/index.ts')
-  // },
-
-  // Source maps support ('inline-source-map' also works)
-  devtool: 'source-map',
+  entry: {
+    specs: root('specs/index.ts')
+  },
 
   output: {
     path: root('dist/specs'),
@@ -46,9 +45,6 @@ module.exports = {
       use: [{
         loader: 'awesome-typescript-loader',
         options: {
-          paths: [
-            root('specs', '**/*ts')
-          ],
           configFileName: root('tsconfig.json')
         }
       }]

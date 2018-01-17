@@ -27,8 +27,7 @@ module.exports = {
   },
 
   entry: {
-    app: root('src/app/app.ts'),
-    specs: root('specs/index.ts')
+    app: root('src/app/app.ts')
   },
 
   module: {
@@ -53,12 +52,9 @@ module.exports = {
     new CleanWebpackPlugin([
       root('dist/src')
     ], {
-      root: root()
-    }),
+        root: root()
+      })
 
-    new webpack.optimize.CommonsChunkPlugin({
-      name: ['app']
-    })
   ]
 
 };

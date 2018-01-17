@@ -2,13 +2,15 @@
  * Copyright 2018 - Author gauravm.git@gmail.com
  */
 
+ // TODO - Fix it. Outdated due to webpack build
+
 const gulp = require('gulp');
 
 const tasks = require('./tasks');
 const helpers = require('./../configs/helpers');
 
 const config = {
-  destDir: helpers.root('dist'),
+  destDir: helpers.root('dist', 'src'),
   inputSourceFiles: [
     './src/**/*.ts'
   ],
