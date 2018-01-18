@@ -12,6 +12,9 @@ module.exports = {
   target: 'node',
   externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
 
+  // Source maps support ('inline-source-map' also works)
+  devtool: 'source-map',
+
   resolve: {
     extensions: [
       '.ts'
