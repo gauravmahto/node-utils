@@ -3,7 +3,7 @@
  */
 
 const gulp = require('gulp');
-const gutil = require('gulp-util');
+const log = require('fancy-log');
 
 const ts = require('gulp-typescript');
 const sourcemaps = require('gulp-sourcemaps');
@@ -13,7 +13,7 @@ const del = require('del');
 
 function onError(error) {
 
-  gutil.log(error);
+  log.error(error);
   this.emit('end');
 
 }
