@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - Author gauravm.git@gmail.com
+ * Copyright 2018 - Author gauravm.git@gmail.com
  */
 
 export interface SerializedAsyncOptions {

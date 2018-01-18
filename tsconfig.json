@@ -5,12 +5,12 @@
     "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
-    "declaration": true,
+    "declaration": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "removeComments": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true,    
+    "noUnusedParameters": true,
     "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
     "sourceRoot": ".",
@@ -23,6 +23,18 @@
       ],
       "src/*": [
         "src/*"
+      ],
+      "app": [
+        "src/app"
+      ],
+      "app/*": [
+        "src/app/*"
+      ],
+      "framework": [
+        "src/framework"
+      ],
+      "framework/*": [
+        "src/framework/*"
       ]
     },
     "lib": [
@@ -31,11 +43,13 @@
     ]
   },
   "include": [
-    "./**/*"
+    "./src/**/*",
+    "./specs/**/*"
   ],
   "exclude": [
-    "node_modules", 
+    "node_modules",
     "dist",
-    "specs"
+    "build",
+    "configs"
   ]
 }
