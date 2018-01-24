@@ -102,9 +102,9 @@ function deleteFilesFolder(cmdArgs: string[]) {
 
                 // Create an entry for particular folder in the 'dirWithVer' object.
                 dirWithVer[name] = {
-                  x86: [],
+                  none: [],
                   x64: [],
-                  none: []
+                  x86: []
                 };
 
                 if (dir.includes('x86')) {

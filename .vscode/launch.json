@@ -12,6 +12,10 @@
       "preLaunchTask": "npm: webpack-compile",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
+      ],
+      "smartStep": true,
+      "args": [
+        "--src='D:\\Soft_Setup\\Work\\Visual Studio\\Visual Studio Professional 2017'"
       ]
     }
   ]
