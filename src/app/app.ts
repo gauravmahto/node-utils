@@ -2,7 +2,7 @@
  * Copyright 2018 - Author gauravm.git@gmail.com
  */
 
-import * as log from 'fancy-log';
+import log from 'fancy-log';
 import { deleteFilesFolder } from './main';
 
 // Application entry.

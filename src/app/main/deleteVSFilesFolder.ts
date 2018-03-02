@@ -2,10 +2,10 @@
  * Copyright 2018 - Author gauravm.git@gmail.com
  */
 
-import * as log from 'fancy-log';
-import * as fs from 'fs';
-import * as path from 'path';
-import * as rimraf from 'rimraf';
+import log from 'fancy-log';
+import fs from 'fs';
+import path from 'path';
+import rimraf from 'rimraf';
 import { promisify } from 'util';
 
 import {
@@ -102,9 +102,9 @@ function deleteFilesFolder(cmdArgs: string[]) {
 
                 // Create an entry for particular folder in the 'dirWithVer' object.
                 dirWithVer[name] = {
-                  x86: [],
+                  none: [],
                   x64: [],
-                  none: []
+                  x86: []
                 };
 
                 if (dir.includes('x86')) {

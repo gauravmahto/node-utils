@@ -8,7 +8,8 @@
     "webpack-compile-test": "webpack --config webpack.test.config.js",
     "webpack-watch-test": "webpack -w --config webpack.test.config.js",
     "webpack-compile": "webpack --config webpack.config.js",
-    "webpack-watch": "webpack -w --config webpack.config.js"
+    "webpack-watch": "webpack -w --config webpack.config.js",
+    "start-server": "node dist/src/app.js"
   },
   "repository": {
     "type": "git",
@@ -45,7 +46,7 @@
     "gulp-sourcemaps": "2.6.3",
     "gulp-typescript": "4.0.0-alpha.1",
     "mocha": "4.1.0",
-    "typescript": "2.6.2",
+    "typescript": "2.7.1",
     "webpack": "3.10.0",
     "webpack-merge": "4.1.1",
     "webpack-node-externals": "1.6.0"
