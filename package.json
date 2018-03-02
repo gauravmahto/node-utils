@@ -8,7 +8,8 @@
     "webpack-compile-test": "webpack --config webpack.test.config.js",
     "webpack-watch-test": "webpack -w --config webpack.test.config.js",
     "webpack-compile": "webpack --config webpack.config.js",
-    "webpack-watch": "webpack -w --config webpack.config.js"
+    "webpack-watch": "webpack -w --config webpack.config.js",
+    "start-server": "node dist/src/app.js"
   },
   "repository": {
     "type": "git",
