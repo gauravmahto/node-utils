@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 RUN npm run webpack-compile
 
-# Expose port
+# Expose the needed port
 # EXPOSE 80
 
 CMD [ "npm", "run", "start-server" ]
