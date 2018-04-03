@@ -10,9 +10,9 @@ import { promisify } from 'util';
 
 import {
   getArgKeyVal,
-  getInstance,
-  SerializedAsyncOptions,
-  SerializedAsyncResult
+  getSerializedAsyncTasksInstance,
+  SerializedAsyncTasksOptions,
+  SerializedAsyncTasksResult
 } from 'framework';
 
 const readDir = promisify(fs.readdir);
@@ -28,8 +28,8 @@ function deleteFilesFolder(cmdArgs: string[]) {
 
     if (typeof srcDir !== 'undefined') {
 
-      const serializedAsync = getInstance();
-      const asyncOptions: SerializedAsyncOptions = {};
+      const serializedAsync = getSerializedAsyncTasksInstance();
+      const asyncOptions: SerializedAsyncTasksOptions = {};
 
       // Read the provided dir.
       readDir(srcDir)
@@ -48,7 +48,7 @@ function deleteFilesFolder(cmdArgs: string[]) {
           return serializedAsync.do(stat, asyncOptions);
 
         })
-        .then((result: SerializedAsyncResult[]) => {
+        .then((result: SerializedAsyncTasksResult[]) => {
 
           // result will only contain directories.
 

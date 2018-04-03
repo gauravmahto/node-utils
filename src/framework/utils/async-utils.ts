@@ -2,20 +2,8 @@
  * Copyright 2018 - Author gauravm.git@gmail.com
  */
 
-export interface SerializedAsyncOptions {
-
-  until?: number | ((index: number) => boolean);
-  getArguments?: (index: number) => any[];
-  addToResult?: (item: any, ...originalItems: any[]) => boolean;
-
-}
-export interface SerializedAsyncResult {
-
-  res: any;
-  args: any | any[];
-
-}
-export type SerializedAsyncDoFn<T> = (...args: any[]) => Promise<T> | T;
+// Description:
+// Utility to executes multiple async job one after another.
 
 // region - Validation functions.
 
@@ -105,7 +93,25 @@ function validateIsArray(item: any, noThrow: boolean = false): Error | boolean {
 
 // endregion - Validation functions.
 
-export declare class SerializedAsync {
+export interface SerializedAsyncTasksOptions {
+
+  addToResult?: boolean | ((item: any, ...originalItems: any[]) => boolean);
+  executionContext?: any;
+  getArguments?: (index: number) => any[];
+  until?: number | ((index: number) => boolean);
+
+}
+
+export interface SerializedAsyncTasksResult {
+
+  args: any | any[];  // tslint:disable-line
+  res: any;
+
+}
+
+export type SerializedAsyncTasksDoFn = (...args: any[]) => any;
+
+export declare class SerializedAsyncTasks {
 
   private constructor();
 
@@ -115,21 +121,21 @@ export declare class SerializedAsync {
    * @param options
    * @param args
    */
-  public do<U>(fn: SerializedAsyncDoFn<U>,
-    options: SerializedAsyncOptions,
-    ...args: any[]): Promise<SerializedAsyncResult[]>;
+  public do(fn: SerializedAsyncTasksDoFn,
+    options?: SerializedAsyncTasksOptions,
+    ...args: any[]): Promise<SerializedAsyncTasksResult[]>;
 
 }
 
-export function getInstance(): SerializedAsync {
+export function getSerializedAsyncTasksInstance(): SerializedAsyncTasks {
 
-  class SerializedAsyncPrivate {
+  class SerializedAsyncTasksPrivate {
 
-    private static instanceDoRunning: boolean = false;
+    private static instanceDoRunning = false;
 
     private readonly validations: { [k: string]: validateFn } = {};
     private currentIteration: number;
-    private doResult: SerializedAsyncResult[];
+    private doResult: SerializedAsyncTasksResult[];
 
     private doStarted: boolean;
 
@@ -151,11 +157,11 @@ export function getInstance(): SerializedAsync {
      * @param options
      * @param args
      */
-    public do<U>(fn: SerializedAsyncDoFn<U>,
-      options: SerializedAsyncOptions = { until: -1 },
-      ...args: any[]): Promise<SerializedAsyncResult[]> {
+    public do(fn: SerializedAsyncTasksDoFn,
+      options: SerializedAsyncTasksOptions = {},
+      ...args: any[]): Promise<SerializedAsyncTasksResult[]> {
 
-      if (SerializedAsyncPrivate.instanceDoRunning) {
+      if (SerializedAsyncTasksPrivate.instanceDoRunning) {
 
         return Promise.reject(
           new Error('Only single do call is allowed for the same instance at a time.')
@@ -163,9 +169,21 @@ export function getInstance(): SerializedAsync {
 
       }
 
-      SerializedAsyncPrivate.instanceDoRunning = true;
+      SerializedAsyncTasksPrivate.instanceDoRunning = true;
 
-      return this.$$do<U>(fn, options, ...args);
+      options = Object.assign(this.getDefaultOptions(), options);
+
+      return this.$$do(fn, options, ...args);
+
+    }
+
+    private getDefaultOptions(): SerializedAsyncTasksOptions {
+
+      return {
+        addToResult: true,
+        executionContext: null,
+        until: -1
+      };
 
     }
 
@@ -186,9 +204,9 @@ export function getInstance(): SerializedAsync {
      * @param options
      * @param args
      */
-    private $$do<U>(fn: SerializedAsyncDoFn<U>,
-      options: SerializedAsyncOptions,
-      ...args: any[]): Promise<SerializedAsyncResult[]> {
+    private $$do(fn: SerializedAsyncTasksDoFn,
+      options: SerializedAsyncTasksOptions,
+      ...args: any[]): Promise<SerializedAsyncTasksResult[]> {
 
       try {
 
@@ -224,11 +242,10 @@ export function getInstance(): SerializedAsync {
       let fnArgs: any[];
 
       // Get the arguments that will be passed to the async callback fn.
-      if (this.validations[ValidationFunction.GetArguments](options.getArguments, true) &&
-        options.getArguments /* <-- Get rid of TS warning */) {
+      if (this.validations[ValidationFunction.GetArguments](options.getArguments, true)) {
 
         // Use the provided getArguments callback to fetch the arguments.
-        fnArgs = options.getArguments(this.currentIteration);
+        fnArgs = options.getArguments!(this.currentIteration);
 
         try {
 
@@ -251,15 +268,13 @@ export function getInstance(): SerializedAsync {
       return new Promise((resolve: (p: any[]) => void, reject: (p: any) => void) => {
 
         // Call the async callback fn by passing the arguments.
-        Promise.resolve(fn(...fnArgs))
+        Promise.resolve(fn.apply(options.executionContext, fnArgs))
           .then((response: any) => {
 
             // Check whether addToResult callback was provided or not.
-            if (this.validations[ValidationFunction.AddToResult](options.addToResult, true) &&
-              options.addToResult /* <-- Get rid of TS warning */) {
+            if (typeof options.addToResult === 'boolean') {
 
-              // Check whether result should be pushed to the result array or not.
-              if (options.addToResult(response, ...fnArgs)) {
+              if (options.addToResult) {
 
                 // Push the result into the response array.
                 this.doResult.push({
@@ -269,13 +284,18 @@ export function getInstance(): SerializedAsync {
 
               }
 
-            } else {  // Else, add the result to the result array.
+            } else if (this.validations[ValidationFunction.AddToResult](options.addToResult, true)) {
 
-              // Push the result into the response array.
-              this.doResult.push({
-                res: response,
-                args: fnArgs
-              });
+              // Check whether result should be pushed to the result array or not.
+              if (options.addToResult!(response, ...fnArgs)) {
+
+                // Push the result into the response array.
+                this.doResult.push({
+                  res: response,
+                  args: fnArgs
+                });
+
+              }
 
             }
 
@@ -300,7 +320,7 @@ export function getInstance(): SerializedAsync {
             // Resolve the main Promise.
             resolve(response);
             // Allow next do call.
-            SerializedAsyncPrivate.instanceDoRunning = false;
+            SerializedAsyncTasksPrivate.instanceDoRunning = false;
             // Reset the data.
             this.reset();
 
@@ -310,7 +330,7 @@ export function getInstance(): SerializedAsync {
             // Reject the main Promise.
             reject(error);
             // Allow next do call.
-            SerializedAsyncPrivate.instanceDoRunning = false;
+            SerializedAsyncTasksPrivate.instanceDoRunning = false;
             // Reset the data.
             this.reset();
 
@@ -322,7 +342,7 @@ export function getInstance(): SerializedAsync {
 
   }
 
-  return (new SerializedAsyncPrivate()) as SerializedAsync;
+  return (new SerializedAsyncTasksPrivate()) as SerializedAsyncTasks;
 
 }
 
