@@ -5,13 +5,13 @@
 import { expect } from 'chai';
 import 'mocha';
 
-import { getInstance } from 'framework';
+import { getSerializedAsyncTasksInstance } from 'framework';
 
 describe('Async utils', () => {
 
   it('Should get and instance', () => {
 
-    expect(() => getInstance()).to.not.be.undefined;  // tslint:disable-line
+    expect(() => getSerializedAsyncTasksInstance()).to.not.be.undefined;  // tslint:disable-line
 
   });
 
