@@ -12,6 +12,8 @@ const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
 
 module.exports = webpackMerge(commonConfig, {
 
+  mode: 'production',
+
   // Source maps support ('inline-source-map' also works)
   devtool: 'source-map',
 

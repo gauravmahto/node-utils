@@ -8,6 +8,8 @@ const root = require('./helpers').root;
 
 module.exports = webpackMerge(commonConfig, {
 
+  mode: 'development',
+
   // Source maps support ('inline-source-map' also works)
   devtool: 'source-map',
 
