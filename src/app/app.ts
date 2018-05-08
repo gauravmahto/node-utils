@@ -3,11 +3,16 @@
  */
 
 import log from 'fancy-log';
-import { deleteFilesFolder } from './main';
+import { deleteFilesFolder, getMissingSOAPErrors } from './main';
 
 // Application entry.
 
 log.info('** App entry **');
+
+// const fileA = 'D:\\Perforce\\CallXpress\\CX_Next\\CX\\ProdCode\\Include\\Avt\\SoapServiceErrs.h';
+// const fileB = 'D:\\Perforce_CXWeb\\CallXpress\\CX_Next\\CXWeb\\NodeJS\\Apps\\sources\\server\\' +
+//   'libs\\cxweb-soap\\soap\\util\\soap-errors.ts';
+// console.log(getMissingSOAPErrors(fileA, fileB));
 
 // Usage - 1 :
 // Cmd utility to delete versioned folder.
