@@ -8,3 +8,9 @@ dist
 
 # Ignore package-lock.json
 package-lock.json
+<<<<<<< HEAD
+=======
+
+# VSCode history files
+.history
+>>>>>>> 8a018064a24b7dcca6b92d9e977b96f8a505c20b
