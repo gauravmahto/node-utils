@@ -3,3 +3,4 @@
  */
 
 export * from './deleteVSFilesFolder';
+export * from './find-missing-SOAP-errs';
